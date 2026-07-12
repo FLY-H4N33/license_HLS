@@ -23,6 +23,11 @@
             --accent-hover: #3b8dff;
             --border: #0e9adb;
             --warn: #ff4a4a;
+            
+            /* 요금제 배지 컬러 지정을 위한 변수 추가 */
+            --tier-free: #6b7280;
+            --tier-pro: #3b82f6;
+            --tier-elite: #a855f7;
         }
 
         body {
@@ -136,7 +141,7 @@
         /* 제목 상단 섹션 */
         .hero {
             text-align: center;
-            padding: 3rem 0;
+            padding: 3rem 0 1.5rem 0;
             animation: slideUp 0.8s ease-out;
         }
 
@@ -157,7 +162,7 @@
             display: flex;
             justify-content: center;
             gap: 1rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .btn {
@@ -176,6 +181,92 @@
             background: var(--border);
             color: black;
             box-shadow: 0 0 15px rgba(14, 154, 219, 0.4);
+        }
+
+        /* [추가] 요금제 그리드 컨테이너 스타일 */
+        .pricing-section {
+            margin-bottom: 4rem;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 2rem 1.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.3s;
+        }
+        .pricing-card.free-card { border-top: 4px solid var(--tier-free); }
+        .pricing-card.pro-card { border-top: 4px solid var(--tier-pro); }
+        .pricing-card.elite-card { border-top: 4px solid var(--tier-elite); }
+        
+        .pricing-card:hover {
+            border-color: var(--border);
+        }
+        .tier-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            width: max-content;
+        }
+        .free-badge { background: rgba(107, 114, 128, 0.2); color: #9ca3af; }
+        .pro-badge { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .elite-badge { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+
+        .price-tag {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 0.5rem;
+        }
+        .price-sub {
+            font-size: 0.75rem;
+            color: var(--bg-secondary);
+            font-weight: normal;
+            display: block;
+            margin-top: 0.2rem;
+        }
+        .feature-list {
+            list-style: none !important;
+            padding-left: 0 !important;
+            font-size: 0.85rem;
+            color: #d1d5db;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .feature-list li {
+            padding-left: 1.2rem !important;
+            position: relative;
+            margin-bottom: 0 !important;
+        }
+        .feature-list li::before {
+            content: "✓" !important;
+            color: var(--border) !important;
+            font-weight: bold;
+        }
+        .pricing-notice {
+            background: rgba(255, 74, 74, 0.04);
+            border: 1px solid rgba(255, 74, 74, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #ff9e9e;
         }
 
         /* 메인 콘텐츠 섹션 */
@@ -251,7 +342,6 @@
         }
 
         .article ul {
-            list-style-type: none;
             padding-left: 0.5rem;
         }
 
@@ -310,8 +400,9 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 1.8rem; }
             .terms-box { padding: 1.5rem; }
-            .nav-links { display: none; } /* 심플화 */
+            .nav-links { display: none; }
             .tab-buttons { flex-direction: column; gap: 0.5rem; }
+            .pricing-grid { grid-template-columns: 1fr; gap: 1rem; }
         }
     </style>
 </head>
@@ -330,6 +421,7 @@
         <nav>
             <div class="logo">H4N<span>HLS SYSTEM</span></div>
             <ul class="nav-links">
+                <li><a href="#pricing">등급안내</a></li>
                 <li><a href="#tos">이용약관</a></li>
                 <li><a href="#privacy">개인정보처리방침</a></li>
             </ul>
@@ -342,10 +434,54 @@
             <h1>Legal Notice</h1>
             <p>HLS 서비스 이용에 관한 권리와 데이터 수집 안내문입니다.</p>
             <div class="tab-buttons">
+                <a href="#pricing" class="btn">요금제 등급 및 기준 보기</a>
                 <a href="#tos" class="btn">서비스 이용약관 보기</a>
                 <a href="#privacy" class="btn">개인정보 처리방침 보기</a>
             </div>
         </div>
+
+        <section id="pricing" class="pricing-section">
+            <h2>HLS 요금제 및 등급 안내</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card free-card">
+                    <span class="tier-badge free-badge">FREE</span>
+                    <div class="price-tag">무료</div>
+                    <ul class="feature-list">
+                        <li><strong>HLS Lite</strong> 모델 제공</li>
+                        <li>일일 최대 5만 자 이용 가능</li>
+                        <li>1회 입력 글자 수 <strong>5,000자</strong> 제한</li>
+                    </ul>
+                </div>
+                
+                <div class="pricing-card pro-card">
+                    <span class="tier-badge pro-badge">PRO</span>
+                    <div class="price-tag">2,900원 <span class="price-sub">1회성 결제</span></div>
+                    <ul class="feature-list">
+                        <li><strong>HLS Lite</strong> 무제한 이용 가능</li>
+                        <li><strong>HLS PRO</strong> 일일 1만 자 제공</li>
+                        <li>1회 입력 글자 수 <strong>10,000자</strong> 제한</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card elite-card">
+                    <span class="tier-badge elite-badge">ELITE</span>
+                    <div class="price-tag">6,900원 <span class="price-sub">1회성 결제</span></div>
+                    <ul class="feature-list">
+                        <li><strong>HLS Lite</strong> 무제한 이용 가능</li>
+                        <li><strong>HLS PRO</strong> 무제한 이용 가능</li>
+                        <li>1회 입력 글자 수 <strong>50,000자</strong> 제한</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pricing-notice">
+                <p><strong>⚠️ 요금제 결제 및 중단 관련 유의사항 고지</strong></p>
+                <p style="margin-top: 0.3rem; font-size: 0.8rem; line-height: 1.5; color: #ffbfbf;">
+                    - 본 서비스의 모든 유료 플랜(PRO / ELITE) 결제는 매달 갱신되지 않는 <strong>1회성 영구 또는 지정 기간 단독 결제</strong> 조건입니다.<br>
+                    - <strong>[환불 불가 조항]</strong> 본 서비스는 프로젝트 실험실 및 연구 목적으로 상시 운영되므로, 불시의 서비스 전면 중단 혹은 운영 종료가 발생하더라도 <strong>잔여 비용에 대한 환불이 절대 불가능</strong>합니다. 오직 서비스가 정상 잔존하여 지속 제공되는 기간에 한해서만 효력이 유지됨을 동의 후 이용해 주시기 바랍니다.
+                </p>
+            </div>
+        </section>
 
         <section id="tos">
             <h2>서비스 이용약관</h2>
@@ -477,6 +613,6 @@
         document.querySelectorAll('section').forEach(section => {
             scrollObserver.observe(section);
         });
-    </style>
+    </script>
 </body>
 </html>
